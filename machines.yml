@@ -1,0 +1,35 @@
+- name: sh.local.com
+  cpus: 1
+  memory: 1024
+  hostname: sh.local.com
+  ip: 192.168.56.101
+  system: centos/7
+
+
+- name: idx.local.com
+  cpus: 1
+  memory: 1024
+  hostname: idx.local.com
+  ip: 192.168.56.102
+  system: centos/7
+
+- name: dpmt.local.com
+  cpus: 1
+  memory: 1024
+  hostname: dpmt.local.com
+  ip: 192.168.56.103
+  system: centos/7
+
+- name: uf1.local.com
+  cpus: 1
+  memory: 1024
+  hostname: uf1.local.com
+  ip: 192.168.56.201
+  system: centos/7
+
+- name: uf2.local.com
+  cpus: 1
+  memory: 512
+  hostname: uf2.local.com
+  ip: 192.168.56.202
+  system: centos/7
