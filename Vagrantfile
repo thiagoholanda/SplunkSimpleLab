@@ -5,15 +5,20 @@ sudo su
 echo -e "change_me\nchange_me" | passwd root
 echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
 sed -in 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
-systemctl restart sshd
 yum install net-tools wget -y
+timedatectl set-timezone America/Sao_Paulo
+systemctl restart sshd chronyd
 if [ $(hostname) == "uf1.local.com" ] || [ $(hostname) == "uf2.local.com" ]
 then
 cd /opt &&  wget -O splunkforwarder-8.0.3-linux-2.6-x86_64.rpm 'https://www.splunk.com/bin/splunk/DownloadActivityServlet?architecture=x86_64&platform=linux&version=8.0.3&product=universalforwarder&filename=splunkforwarder-8.0.3-a6754d8441bf-linux-2.6-x86_64.rpm&wget=true'
 cd /opt && yum install -y splunkforwarder-8.0.3-linux-2.6-x86_64.rpm && /opt/splunkforwarder/bin/splunk start --accept-license --answer-yes --no-prompt --seed-passwd change_me
+/opt/splunkforwarder/bin/splunk enable boot-start
+/opt/splunkforwarder/bin/splunk set deploy-poll 192.168.56.103:8089 -auth admin:change_me
+/opt/splunkforwarder/bin/splunk restart
 else
 cd /opt &&  wget -O splunk-8.0.3-linux-2.6-x86_64.rpm 'https://www.splunk.com/bin/splunk/DownloadActivityServlet?architecture=x86_64&platform=linux&version=8.0.3&product=splunk&filename=splunk-8.0.3-a6754d8441bf-linux-2.6-x86_64.rpm&wget=true'
 yum install -y splunk-8.0.3-linux-2.6-x86_64.rpm && /opt/splunk/bin/splunk start --accept-license --answer-yes --no-prompt --seed-passwd change_me
+/opt/splunk/bin/splunk enable boot-start
 fi
 
 SHELL
